@@ -62,7 +62,7 @@ export function dbToolDef(api) {
 				case 'connections':
 					return api.connectionsList()
 				case 'add':
-					return api.connectionsAdd({ path: a.path, label: a.label })
+					return api.connectionsAdd({ path: a.path, label: a.label, caller: 'agent' })
 				case 'create':
 					return api.create({ path: a.path, label: a.label })
 				case 'remove':

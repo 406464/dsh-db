@@ -1,5 +1,9 @@
 # dsh-db
 
+[![CI](https://github.com/406464/dsh-db/actions/workflows/ci.yml/badge.svg)](https://github.com/406464/dsh-db/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![deps](https://img.shields.io/badge/dependencies-zero-green)](package.json)
+
 DeepSeek Harness 的数据库工作台插件：SQLite 连接管理 + SQL 编辑器 + 数据网格操控面板 + Agent 工具，并为 DSH 的 storage hub 补上官方尚未随包的 **sqlite 后端**。
 
 基于 Node 内置的 `node:sqlite`（`DatabaseSync`）——**零原生依赖、零编译、不跟 Electron ABI 较劲**。

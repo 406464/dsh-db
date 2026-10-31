@@ -37,8 +37,9 @@ export function buildApi({ core, connections, cfg }) {
 			return { connections: connections.list() }
 		},
 
-		connectionsAdd({ path, label, allowCreate = false }) {
-			if (cfg.allowAddConnection !== true) {
+		connectionsAdd({ path, label, allowCreate = false, caller = 'ui' }) {
+			// allowAddConnection 只约束 Agent 侧：面板是用户当场操作，不该被同一个开关挡住
+			if (caller === 'agent' && cfg.allowAddConnection !== true) {
 				throw new DbError(
 					'forbidden',
 					'连接登记默认只在面板里做：Agent 侧需先在插件 config 里设 allowAddConnection: true',

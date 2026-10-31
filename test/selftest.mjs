@@ -169,6 +169,17 @@ async function main() {
 	roCore.closeAll()
 	ok('allowWrite 策略')
 
+	// ── 连接登记按调用方区分 ──
+	const gatedCfg = { ...cfg, allowAddConnection: false }
+	const gatedCore = new DbCore(gatedCfg)
+	const gatedApi = buildApi({ core: gatedCore, connections, cfg: gatedCfg })
+	await rejects('Agent 侧 allowAddConnection=false 时拒绝登记', () => gatedApi.connectionsAdd({ path: join(dir, 'gated.db'), caller: 'agent' }), 'forbidden')
+	const viaUi = await gatedApi.connectionsAdd({ path: join(dir, 'gated.db'), allowCreate: true, caller: 'ui' })
+	assert.ok(viaUi.id, '面板侧应能登记连接')
+	await api.connectionsRemove({ id: viaUi.id })
+	gatedCore.closeAll()
+	ok('连接登记按调用方区分（面板可登记，Agent 受开关约束）')
+
 	// ── storage hub 的 sqlite 后端 ──
 	const backend = new SqliteStorageBackend(dir)
 	const unit = await backend.kv.open({ name: 'notes', version: 1, tables: ['entries'], hasGlobal: true })

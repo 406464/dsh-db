@@ -1,5 +1,9 @@
 # dsh-db
 
+[![CI](https://github.com/406464/dsh-db/actions/workflows/ci.yml/badge.svg)](https://github.com/406464/dsh-db/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![deps](https://img.shields.io/badge/dependencies-zero-green)](package.json)
+
 A database workbench plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): SQLite connection manager + SQL editor + data-grid panel + an agent-facing `db` tool — plus the **sqlite backend** that DSH's storage hub documents but does not ship.
 
 Built on Node's built-in `node:sqlite` (`DatabaseSync`): **no native dependencies, no build step, no Electron ABI roulette**.

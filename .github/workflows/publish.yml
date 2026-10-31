@@ -1,8 +1,15 @@
 name: Publish
 
-# 打 tag（v*）时发布到 npm。需要先在仓库 Secrets 里配 NPM_TOKEN
-# （npm 网站 → Access Tokens → Automation token），并在 npm 上把该包的
-# Trusted Publisher / Provenance 允许给这个仓库。
+# 打 tag（v*）时发布到 npm。
+#
+# 前置条件（只做一次，见 README「发布到 npm」一节）：
+#   1. npm 账号 + 开启 Two-Factor Authentication（发布 scoped 包要求）
+#   2. 建一个 Automation 类型的 Access Token，存进本仓库的
+#      Settings → Secrets and variables → Actions → NPM_TOKEN
+#   3. （可选但推荐）在 npm 网站把该包的 Trusted Publisher 指向本仓库，
+#      这样 --provenance 能签出可验证的来源标记
+#
+# 没配 NPM_TOKEN 时本 workflow 会跳过发布并以成功结束，不会把 tag 标红。
 on:
   push:
     tags:
@@ -15,6 +22,8 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,11 +42,17 @@ jobs:
             echo "package.json version ($pkg_version) does not match tag ($tag)" >&2
             exit 1
           fi
+      - name: Skip when NPM_TOKEN is not configured
+        if: env.NPM_TOKEN == ''
+        run: |
+          echo "::notice::NPM_TOKEN 未配置，跳过 npm 发布。配好 secret 后重跑本 workflow（或重推 tag）即可发布。"
       - name: Publish
+        if: env.NPM_TOKEN != ''
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Create the GitHub release
+        if: env.NPM_TOKEN != ''
         run: gh release create "$GITHUB_REF_NAME" --generate-notes --title "$GITHUB_REF_NAME"
         env:
           GH_TOKEN: ${{ github.token }}

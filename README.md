@@ -109,6 +109,20 @@ Errors carry stable codes: `write-disabled`, `confirm-required`, `forbidden-sql`
 
 Pick theirs for company PG/MySQL and conversation-bound querying. Pick this one for a dependency-free local SQLite workbench that also fills the storage hub's sqlite slot.
 
+## Publishing to npm (maintainers, one-time setup)
+
+Pushing a `v*` tag triggers `.github/workflows/publish.yml`. Before the first release:
+
+1. **npm account + 2FA** — sign up at https://www.npmjs.com/signup, then Settings → Account → Two-Factor Authentication (required to publish under the `@406464` scope).
+2. **Repository secret** — npm → Access Tokens → Generate Token → type **Automation**, copy the `npm_...` value; GitHub repo → Settings → Secrets and variables → Actions → New repository secret named `NPM_TOKEN`. Never commit it, never paste it into a chat.
+3. **Re-run** — Actions → Publish → Re-run jobs, or delete and re-push the tag:
+
+   ```bash
+   git tag -d v0.1.0 && git push origin :refs/tags/v0.1.0 && git push origin v0.1.0
+   ```
+
+Without `NPM_TOKEN` the workflow **skips publishing and succeeds**, so a tag never shows up red. Once published, the package carries an npm Provenance attestation installers can verify.
+
 ## Known limits (stated plainly)
 
 - `DatabaseSync` is **synchronous** and runs on the host's main thread. A full-table scan stalls the whole Harness — `node:sqlite` exposes no statement cancellation. Row/byte caps and explicit `LIMIT` are the current mitigation; moving heavy queries to a worker thread is on the roadmap.

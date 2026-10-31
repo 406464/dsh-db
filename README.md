@@ -1,8 +1,11 @@
 # dsh-db
 
+[![npm](https://img.shields.io/npm/v/%40406464%2Fdsh-db)](https://www.npmjs.com/package/@406464/dsh-db)
 [![CI](https://github.com/406464/dsh-db/actions/workflows/ci.yml/badge.svg)](https://github.com/406464/dsh-db/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![deps](https://img.shields.io/badge/dependencies-zero-green)](package.json)
+
+![Database workbench: playground.db connection, table tree, SQL editor, export](docs/panel.webp)
 
 A database workbench plugin for [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness): SQLite connection manager + SQL editor + data-grid panel + an agent-facing `db` tool — plus the **sqlite backend** that DSH's storage hub documents but does not ship.
 
@@ -30,13 +33,19 @@ cd dsh-db && npm install && npm test     # self-test, no DSH required
 Then install it into DSH — `dsh plugin` forwards its arguments to pnpm in the profile directory:
 
 ```powershell
-# Windows
-& "D:\deepseek harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add github:406464/dsh-db
+# Windows — from npm
+& "D:\deepseek harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add @406464/dsh-db
 ```
 
 ```bash
 # macOS desktop
 DSH_CLI="/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh"
+"$DSH_CLI" plugin --profile desktop add @406464/dsh-db
+```
+
+Until the npm release lands, install straight from GitHub:
+
+```bash
 "$DSH_CLI" plugin --profile desktop add github:406464/dsh-db
 ```
 

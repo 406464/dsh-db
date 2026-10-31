@@ -1,8 +1,11 @@
 # dsh-db
 
+[![npm](https://img.shields.io/npm/v/%40406464%2Fdsh-db)](https://www.npmjs.com/package/@406464/dsh-db)
 [![CI](https://github.com/406464/dsh-db/actions/workflows/ci.yml/badge.svg)](https://github.com/406464/dsh-db/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![deps](https://img.shields.io/badge/dependencies-zero-green)](package.json)
+
+![数据库工作台：连接 playground.db、表树、SQL 编辑器、导出](docs/panel.webp)
 
 DeepSeek Harness 的数据库工作台插件：SQLite 连接管理 + SQL 编辑器 + 数据网格操控面板 + Agent 工具，并为 DSH 的 storage hub 补上官方尚未随包的 **sqlite 后端**。
 
@@ -30,13 +33,19 @@ cd dsh-db && npm install && npm test     # 自检，不依赖 DSH
 在 DSH 里安装（任选其一）：
 
 ```powershell
-# Windows —— dsh plugin 会把参数转发给 pnpm
-& "D:\deepseek harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add github:406464/dsh-db
+# Windows —— 从 npm
+& "D:\deepseek harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add @406464/dsh-db
 ```
 
 ```bash
 # macOS 桌面端
 DSH_CLI="/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh"
+"$DSH_CLI" plugin --profile desktop add @406464/dsh-db
+```
+
+还没发 npm 之前，直接从 GitHub 装：
+
+```bash
 "$DSH_CLI" plugin --profile desktop add github:406464/dsh-db
 ```
 

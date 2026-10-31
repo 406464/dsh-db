@@ -1,0 +1,43 @@
+name: Publish
+
+# 打 tag（v*）时发布到 npm。需要先在仓库 Secrets 里配 NPM_TOKEN
+# （npm 网站 → Access Tokens → Automation token），并在 npm 上把该包的
+# Trusted Publisher / Provenance 允许给这个仓库。
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  id-token: write    # npm provenance 需要
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Syntax check
+        run: npm run check
+      - name: Self test
+        run: npm test
+      - name: Verify the version matches the tag
+        run: |
+          pkg_version=$(node -p "require('./package.json').version")
+          tag="${GITHUB_REF_NAME}"
+          if [ "v$pkg_version" != "$tag" ]; then
+            echo "package.json version ($pkg_version) does not match tag ($tag)" >&2
+            exit 1
+          fi
+      - name: Publish
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create the GitHub release
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --title "$GITHUB_REF_NAME"
+        env:
+          GH_TOKEN: ${{ github.token }}

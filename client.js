@@ -9,7 +9,7 @@
  * 样式：只用 --dsw-alias-* / --dsw-specific-* token，不引宿主 UI 包。
  */
 window.__ModuleLoader__.load({
-	id: 'dsh-db',
+	id: '@406464/dsh-db',
 	factory: function (require) {
 		var module = { exports: {} }
 		var exports = module.exports

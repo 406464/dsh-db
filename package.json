@@ -1,5 +1,5 @@
 {
-  "name": "dsh-db",
+  "name": "@406464/dsh-db",
   "version": "0.1.0",
   "description": "DSH 数据库工作台：SQLite 连接管理、SQL 执行、数据网格操控面板、Agent 工具，并为 storage hub 补上 sqlite 后端",
   "type": "module",
@@ -32,11 +32,17 @@
     "cordis.patch.yml",
     "locale",
     "icon.svg",
+    "docs",
     "README.md",
     "README.zh.md",
     "LICENSE",
+    "CHANGELOG.md",
     "test"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "dsh",
     "deepseek-harness",

@@ -1,0 +1,59 @@
+{
+  "name": "dsh-db",
+  "version": "0.1.0",
+  "description": "DSH 数据库工作台：SQLite 连接管理、SQL 执行、数据网格操控面板、Agent 工具，并为 storage hub 补上 sqlite 后端",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "files": [
+    "src",
+    "client.js",
+    "cordis.patch.yml",
+    "locale",
+    "icon.svg",
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    "test"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-plugin",
+    "cordis",
+    "sqlite",
+    "database",
+    "sql",
+    "storage-backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/<owner>/dsh-db.git"
+  },
+  "scripts": {
+    "check": "node --check src/index.js && node --check src/sqlite.js && node --check src/connections.js && node --check src/api.js && node --check src/tools.js && node --check src/routes.js && node --check src/backend.js && node --check client.js",
+    "test": "node test/selftest.mjs",
+    "seed": "node test/seed-demo.mjs"
+  }
+}

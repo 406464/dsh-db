@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # node:sqlite 需要 Node >= 22.5；DSH 运行时自带 24
+        node-version: ['22.x', '24.x']
+    name: syntax + selftest (node ${{ matrix.node-version }})
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Syntax check
+        run: npm run check
+      - name: Self test
+        run: npm test
+
+  package:
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+      - name: Verify the packed file list
+        run: |
+          npm pack --dry-run
+          test -f cordis.patch.yml && test -f icon.svg && test -f locale/zh.json && test -f locale/en.json

@@ -1,0 +1,5 @@
+# dsh-db plugin registration patch
+- insert:
+    - id: dsh-db
+      name: 'dsh-db'
+      config: {}

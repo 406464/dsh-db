@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Database Workbench",
+    "description": "SQLite connection manager with a SQL editor and data-grid panel, an agent-facing db tool, and a sqlite backend for the storage hub. Built on Node's built-in node:sqlite — no native dependencies."
+  }
+}

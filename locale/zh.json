@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "数据库工作台",
+    "description": "SQLite 连接管理、SQL 执行与数据网格操控面板；给 Agent 提供 db 工具；并为 storage hub 注册 sqlite 后端。基于 Node 内置 node:sqlite，无原生依赖。"
+  }
+}

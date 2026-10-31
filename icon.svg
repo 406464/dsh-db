@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="dsh-db">
+  <defs>
+    <linearGradient id="dshdb-g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f9cf9"/>
+      <stop offset="1" stop-color="#2f6fd0"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="13" fill="#12233c"/>
+  <ellipse cx="26" cy="16" rx="14" ry="5.5" fill="url(#dshdb-g)"/>
+  <path d="M12 16v14c0 3 6.3 5.5 14 5.5S40 33 40 30V16" fill="none" stroke="url(#dshdb-g)" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M12 23v14c0 3 6.3 5.5 14 5.5S40 40 40 37V23" fill="none" stroke="url(#dshdb-g)" stroke-width="2.6" stroke-linecap="round" opacity=".62"/>
+  <rect x="38" y="34" width="20" height="18" rx="3.5" fill="#0c1a2c" stroke="#7fb6ff" stroke-width="2"/>
+  <path d="M38 40h20M38 46h20M45 34v18M52 34v18" stroke="#7fb6ff" stroke-width="1.5" opacity=".8"/>
+</svg>

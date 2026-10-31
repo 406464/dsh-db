@@ -49,7 +49,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/<owner>/dsh-db.git"
+    "url": "git+https://github.com/406464/dsh-db.git"
+  },
+  "bugs": {
+    "url": "https://github.com/406464/dsh-db/issues"
+  },
+  "homepage": "https://github.com/406464/dsh-db#readme",
+  "author": {
+    "name": "406464"
   },
   "scripts": {
     "check": "node --check src/index.js && node --check src/sqlite.js && node --check src/connections.js && node --check src/api.js && node --check src/tools.js && node --check src/routes.js && node --check src/backend.js && node --check client.js",

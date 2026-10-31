@@ -19,16 +19,26 @@ DeepSeek Harness 的数据库工作台插件：SQLite 连接管理 + SQL 编辑�
 ## 安装
 
 ```bash
-git clone https://github.com/<owner>/dsh-db.git
+git clone https://github.com/406464/dsh-db.git
 cd dsh-db && npm install && npm test     # 自检，不依赖 DSH
 ```
 
 在 DSH 里安装（任选其一）：
 
-- 插件页 → 从本地目录安装，指向 clone 出来的 `dsh-db` 目录；
-- 或直接对 Agent 说「把 G:\path\to\dsh-db 装成插件」。
+```powershell
+# Windows —— dsh plugin 会把参数转发给 pnpm
+& "D:\deepseek harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add github:406464/dsh-db
+```
 
-**装完重启一次 DSH**：宿主侧模块只在启动时加载一次。
+```bash
+# macOS 桌面端
+DSH_CLI="/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh"
+"$DSH_CLI" plugin --profile desktop add github:406464/dsh-db
+```
+
+也可以从本地目录装：插件页 → 从本地目录安装，指向 clone 出来的 `dsh-db` 目录；或直接对 Agent 说「把 G:\path\to\dsh-db 装成插件」。
+
+**装完重启一次 DSH**：宿主侧模块只在启动时加载一次。若侧栏没出现「数据库」，去插件页确认该 bundle 已启用。
 
 ## 配置
 
@@ -71,6 +81,20 @@ cd dsh-db && npm install && npm test     # 自检，不依赖 DSH
 - **HTTP 面仅回环**：`/dsh-db/api/*` 只接受本机请求，且只认 POST。
 
 错误统一带稳定 `code`：`write-disabled` / `confirm-required` / `forbidden-sql` / `path-out-of-scope` / `multi-statement` / `not-found` / `sql-error`。
+
+## 和同类插件的区别
+
+npm 上已有 [`dsh-db-studio`](https://www.npmjs.com/package/dsh-db-studio)（SQLite / PostgreSQL / MySQL，带对话内数据库标签、`/db` 指令、查询历史）。两者定位不同，按需要选：
+
+| | dsh-db（本项目） | dsh-db-studio |
+|---|---|---|
+| 数据库范围 | 只有 SQLite | SQLite + PG + MySQL |
+| 依赖 | **零依赖**（Node 内置 `node:sqlite`） | `pg` + `mysql2` |
+| storage hub 的 sqlite 后端 | **有**（其它插件可把域路由到 SQLite） | 无 |
+| 对话内绑定 / 查询历史 / `/db` 指令 | 无 | 有 |
+| 写操作默认 | **关**（`allowWrite: false` + 每次 `confirm`） | 开（`allowWrite: true`） |
+
+要连公司里的 PG/MySQL、要在对话里挂着库随时问，选它。要一个不装任何原生/第三方依赖、并且能给整个 profile 补上 SQLite 存储后端的本地库工具，选这个。
 
 ## 已知边界（诚实说明）
 

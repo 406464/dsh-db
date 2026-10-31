@@ -19,13 +19,26 @@ Panel actions and agent tools call the **same** host methods. One operation, two
 ## Install
 
 ```bash
-git clone https://github.com/<owner>/dsh-db.git
+git clone https://github.com/406464/dsh-db.git
 cd dsh-db && npm install && npm test     # self-test, no DSH required
 ```
 
-Then install it into DSH — either from the Plugins page (install from local directory, point at the cloned `dsh-db` folder), or by asking the agent to run `install_bundle` on that directory.
+Then install it into DSH — `dsh plugin` forwards its arguments to pnpm in the profile directory:
 
-**Restart DSH once afterwards**: host-side modules load once at startup.
+```powershell
+# Windows
+& "D:\deepseek harness\resources\runtime\cli\bin\dsh.cmd" plugin --profile desktop add github:406464/dsh-db
+```
+
+```bash
+# macOS desktop
+DSH_CLI="/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh"
+"$DSH_CLI" plugin --profile desktop add github:406464/dsh-db
+```
+
+Or install from a local directory via the Plugins page, or ask the agent to run `install_bundle` on the cloned folder.
+
+**Restart DSH afterwards**: host-side modules load once at startup. If the sidebar entry is missing, check that the bundle is enabled on the Plugins page.
 
 ## Configuration
 
@@ -68,6 +81,20 @@ Route a domain to SQLite:
 - **Loopback-only HTTP.** `/dsh-db/api/*` accepts local requests and POST only.
 
 Errors carry stable codes: `write-disabled`, `confirm-required`, `forbidden-sql`, `path-out-of-scope`, `multi-statement`, `not-found`, `sql-error`.
+
+## How this differs from similar plugins
+
+[`dsh-db-studio`](https://www.npmjs.com/package/dsh-db-studio) already exists on npm (SQLite / PostgreSQL / MySQL, with an in-conversation database tab, a `/db` command, and query history). Different tradeoffs:
+
+| | dsh-db (this project) | dsh-db-studio |
+|---|---|---|
+| Databases | SQLite only | SQLite + PG + MySQL |
+| Dependencies | **zero** (Node's built-in `node:sqlite`) | `pg` + `mysql2` |
+| storage-hub sqlite backend | **yes** — other plugins can route domains to SQLite | no |
+| In-conversation binding / query history / `/db` | no | yes |
+| Writes by default | **off** (`allowWrite: false` + per-call `confirm`) | on |
+
+Pick theirs for company PG/MySQL and conversation-bound querying. Pick this one for a dependency-free local SQLite workbench that also fills the storage hub's sqlite slot.
 
 ## Known limits (stated plainly)
 

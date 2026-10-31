@@ -109,25 +109,9 @@ npm 上已有 [`dsh-db-studio`](https://www.npmjs.com/package/dsh-db-studio)（S
 
 要连公司里的 PG/MySQL、要在对话里挂着库随时问，选它。要一个不装任何原生/第三方依赖、并且能给整个 profile 补上 SQLite 存储后端的本地库工具，选这个。
 
-## 发布到 npm（维护者，只做一次）
+## 发布与贡献
 
-打 tag 会自动触发 `.github/workflows/publish.yml`。第一次发布前要配好三样：
-
-1. **npm 账号 + 两步验证**：https://www.npmjs.com/signup → 登录后 Settings → Account → Two-Factor Authentication 选 Public（npm 要求开 2FA 才能发 `@406464` 这个 scope）。
-2. **仓库 secret**：npm 网站 → Access Tokens → Generate Token → 类型选 **Automation**，复制那串 `npm_...`；再到 GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret，名字填 `NPM_TOKEN`，值粘进去。**不要**提交进代码，也不要发到聊天里。
-3. **重跑发布**：配好后，GitHub 仓库 → Actions → Publish → 右上角 Re-run jobs 即可；或者直接删 tag 重推：
-
-   ```bash
-   git tag -d v0.1.0 && git push origin :refs/tags/v0.1.0 && git push origin v0.1.0
-   ```
-
-没配 `NPM_TOKEN` 时 workflow 会**跳过发布并成功结束**（不会把 tag 标红）。发布成功后 npm 会带上 Provenance 标记，装的人能验证这个包确实出自本仓库。
-
-发出去之后，别人一条命令就能装：
-
-```bash
-dsh plugin --profile desktop add @406464/dsh-db
-```
+npm 发布、CI、代码结构和一次性配置（`NPM_TOKEN` 那些）写在 [CONTRIBUTING.md](CONTRIBUTING.md)。使用者不需要碰。
 
 ## 已知边界（诚实说明）
 
